@@ -25,8 +25,8 @@ services:
         volumes:
             - ./:/var/www
             - ./nginx/conf.d/:/etc/nginx/conf.d/
-            - ./ssl_certs/server-wallet.fardo.tj.crt:/etc/nginx/ssl_certs/sdmtm.tj.crt:ro
-            - ./ssl_certs/server-wallet.fardo.tj.key:/etc/nginx/ssl_certs/sdmtm.tj.key:ro
+            - ./ssl_certs/car-booking-system.crt:/etc/nginx/ssl_certs/carsys.crt:ro
+            - ./ssl_certs/car-booking-system.key:/etc/nginx/ssl_certs/carsys.key:ro
         networks:
             - app-network
 
