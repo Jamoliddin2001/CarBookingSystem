@@ -17,7 +17,6 @@ services:
     #Nginx Service
     webserver:
         image: nginx
-        container_name: webserver
         tty: true
         ports:
             - "80:80"
