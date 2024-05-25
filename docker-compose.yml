@@ -1,0 +1,48 @@
+version: '2'
+
+services:
+
+    php_test:
+        build:
+            context: .
+            dockerfile: ./dockerfiles/php/Dockerfile
+        tty: false
+        volumes:
+            - ./:/var/www
+            - ./dockerfiles/php/supervisor.conf:/etc/supervisord.conf
+        working_dir: /var/www
+        networks:
+            - app-network
+
+    #Nginx Service
+    webserver:
+        image: nginx
+        container_name: webserver
+        tty: true
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./:/var/www
+            - ./nginx/conf.d/:/etc/nginx/conf.d/
+            - ./ssl_certs/server-wallet.fardo.tj.crt:/etc/nginx/ssl_certs/sdmtm.tj.crt:ro
+            - ./ssl_certs/server-wallet.fardo.tj.key:/etc/nginx/ssl_certs/sdmtm.tj.key:ro
+        networks:
+            - app-network
+
+    db:
+        image: mariadb:10.5
+        environment:
+            MYSQL_ROOT_PASSWORD: 123456
+            MYSQL_DATABASE: ${DB_DATABASE}
+        ports:
+            - 3306:3306
+        volumes:
+            - /home/jamoliddin/Projects/CustomProjects/CarBookingSystem/mysql_data_not_git:/var/lib/mysql
+        networks:
+            - app-network
+
+#Docker Networks
+networks:
+    app-network:
+        driver: bridge
